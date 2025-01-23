@@ -37,9 +37,9 @@ This project provides a user authentication system with registration, login, pro
 
 ## API Endpoints
 
-### Register
+### User Registration
 
-- **URL**: `/api/register`
+- **URL**: `/users/register`
 - **Method**: `POST`
 - **Description**: Registers a new user.
 - **Request Body**:
@@ -96,9 +96,9 @@ This project provides a user authentication system with registration, login, pro
     }
     ```
 
-### Login
+### User Login
 
-- **URL**: `/api/login`
+- **URL**: `/users/login`
 - **Method**: `POST`
 - **Description**: Logs in an existing user.
 - **Request Body**:
@@ -153,7 +153,7 @@ This project provides a user authentication system with registration, login, pro
 
 ### Get User Profile
 
-- **URL**: `/api/profile`
+- **URL**: `/users/profile`
 - **Method**: `GET`
 - **Description**: Retrieves the authenticated user's profile.
 - **Headers**:
@@ -186,11 +186,207 @@ This project provides a user authentication system with registration, login, pro
     }
     ```
 
-### Logout
+### User Logout
 
-- **URL**: `/api/logout`
+- **URL**: `/users/logout`
 - **Method**: `GET`
 - **Description**: Logs out the authenticated user.
+- **Headers**:
+  - `Authorization: Bearer jwt_token`
+- **Success Response**:
+  - **Status**: `200 OK`
+    ```json
+    {
+      "message": "Logout Successful"
+    }
+    ```
+- **Error Responses**:
+  - **Status**: `500 Internal Server Error`
+    ```json
+    {
+      "message": "Error message"
+    }
+    ```
+
+### Driver Registration
+
+- **URL**: `/drivers/register`
+- **Method**: `POST`
+- **Description**: Registers a new driver.
+- **Request Body**:
+  ```json
+  {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "password": "SecurePassword123",
+    "vehicle": {
+      "color": "Blue",
+      "plateNumber": "ABC1234",
+      "capacity": 4,
+      "vehicleType": "Sedan"
+    }
+  }
+  ```
+- **Success Response**:
+  - **Status**: `201 Created`
+  - **Body**:
+    ```json
+    {
+      "message": "Sign Up Successful",
+      "driver": {
+        "_id": "driver_id",
+        "fullname": {
+          "firstname": "John",
+          "lastname": "Doe"
+        },
+        "email": "john.doe@example.com",
+        "vehicle": {
+          "color": "Blue",
+          "plateNumber": "ABC1234",
+          "capacity": 4,
+          "vehicleType": "Sedan"
+        }
+      },
+      "token": "jwt_token"
+    }
+    ```
+- **Error Responses**:
+  - **Status**: `400 Bad Request`
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Please enter a valid email",
+          "param": "email",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+  - **Status**: `400 Bad Request`
+    ```json
+    {
+      "message": "Driver already exists"
+    }
+    ```
+  - **Status**: `500 Internal Server Error`
+    ```json
+    {
+      "message": "Error message"
+    }
+    ```
+
+### Driver Login
+
+- **URL**: `/drivers/login`
+- **Method**: `POST`
+- **Description**: Logs in an existing driver.
+- **Request Body**:
+  ```json
+  {
+    "email": "john.doe@example.com",
+    "password": "SecurePassword123"
+  }
+  ```
+- **Success Response**:
+  - **Status**: `200 OK`
+  - **Body**:
+    ```json
+    {
+      "message": "Login Successful",
+      "driver": {
+        "_id": "driver_id",
+        "fullname": {
+          "firstname": "John",
+          "lastname": "Doe"
+        },
+        "email": "john.doe@example.com",
+        "vehicle": {
+          "color": "Blue",
+          "plateNumber": "ABC1234",
+          "capacity": 4,
+          "vehicleType": "Sedan"
+        }
+      },
+      "token": "jwt_token"
+    }
+    ```
+- **Error Responses**:
+  - **Status**: `400 Bad Request`
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Please enter a valid email",
+          "param": "email",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+  - **Status**: `401 Unauthorized`
+    ```json
+    {
+      "message": "Invalid email or password"
+    }
+    ```
+  - **Status**: `500 Internal Server Error`
+    ```json
+    {
+      "message": "Error message"
+    }
+    ```
+
+### Get Driver Profile
+
+- **URL**: `/drivers/profile`
+- **Method**: `GET`
+- **Description**: Retrieves the authenticated driver's profile.
+- **Headers**:
+  - `Authorization: Bearer jwt_token`
+- **Success Response**:
+  ```json
+  {
+    "_id": "driver_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "vehicle": {
+      "color": "Blue",
+      "plateNumber": "ABC1234",
+      "capacity": 4,
+      "vehicleType": "Sedan"
+    },
+    "location": {
+      "latitude": 40.7128,
+      "longitude": -74.0060
+    }
+  }
+  ```
+- **Error Responses**:
+  - **Status**: `401 Unauthorized`
+    ```json
+    {
+      "message": "Unauthorized"
+    }
+    ```
+  - **Status**: `500 Internal Server Error`
+    ```json
+    {
+      "message": "Error message"
+    }
+    ```
+
+### Driver Logout
+
+- **URL**: `/drivers/logout`
+- **Method**: `GET`
+- **Description**: Logs out the authenticated driver.
 - **Headers**:
   - `Authorization: Bearer jwt_token`
 - **Success Response**:
