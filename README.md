@@ -43,6 +43,13 @@ This project provides a user authentication system with registration, login, pro
 - **Method**: `POST`
 - **Description**: Registers a new user.
 - **Request Body**:
+    - fullname: (object) 
+      - firstname: (string). firstname should be at least 3 characters long
+      - lastname: (string). lastname should be at least 3 characters long
+    - email: (string). email should be a valid email address
+    - password: (string). password should be at least 6 characters long
+
+- **Example**:
   ```json
   {
     "fullname": {
@@ -56,6 +63,16 @@ This project provides a user authentication system with registration, login, pro
 - **Success Response**:
   - **Status**: `201 Created`
   - **Body**:
+    - messege: (string). messege should be "Sign Up Successful"
+    - user: (object)
+      - _id: (string). user_id should be a string
+      - fullname: (object)
+        - firstname: (string). firstname should be at least 3 characters long
+        - lastname: (string). lastname should be at least 3 characters long
+      - email: (string). email should be a valid email address
+    - token: (string). token should be a string
+
+- **Example**:
     ```json
     {
       "message": "Sign Up Successful",
@@ -72,7 +89,6 @@ This project provides a user authentication system with registration, login, pro
     ```
 - **Error Responses**:
   - **Status**: `400 Bad Request`
-    ```json
     {
       "errors": [
         {
@@ -102,6 +118,10 @@ This project provides a user authentication system with registration, login, pro
 - **Method**: `POST`
 - **Description**: Logs in an existing user.
 - **Request Body**:
+    - email: (string). email should be a valid email address
+    - password: (string). password should be at least 6 characters long
+
+- **Example**:
   ```json
   {
     "email": "john.doe@example.com",
@@ -111,6 +131,16 @@ This project provides a user authentication system with registration, login, pro
 - **Success Response**:
   - **Status**: `200 OK`
   - **Body**:
+    - messege: (string). messege should be "Login Successful"
+    - user: (object)
+      - _id: (string). user_id should be a string
+      - fullname: (object)
+        - firstname: (string). firstname should be at least 3 characters long
+        - lastname: (string). lastname should be at least 3 characters long
+      - email: (string). email should be a valid email address
+    - token: (string). token should be a string
+
+- **Example**:
     ```json
     {
       "message": "Login Successful",
@@ -161,6 +191,14 @@ This project provides a user authentication system with registration, login, pro
 - **Success Response**:
   - **Status**: `200 OK`
   - **Body**:
+    - _id: (string). user_id should be a string
+    - fullname: (object)
+      - firstname: (string). firstname should be at least 3 characters long
+      - lastname: (string). lastname should be at least 3 characters long
+    - email: (string). email should be a valid email address
+    - socketid: (string). socket_id should be a string
+
+- **Example**:
     ```json
     {
       "_id": "user_id",
@@ -214,6 +252,18 @@ This project provides a user authentication system with registration, login, pro
 - **Method**: `POST`
 - **Description**: Registers a new driver.
 - **Request Body**:
+    - fullname: (object) 
+      - firstname: (string). firstname should be at least 3 characters long
+      - lastname: (string). lastname should be at least 3 characters long
+    - email: (string). email should be a valid email address
+    - password: (string). password should be at least 6 characters long
+    - vehicle: (object)
+      - color: (string). color should be at least 3 characters long
+      - plateNumber: (string). plateNumber should be at least 3 characters long
+      - capacity: (number). capacity should be a number
+      - vehicleType: (string). vehicleType should be at least 3 characters long
+
+- **Example**:
   ```json
   {
     "fullname": {
@@ -233,6 +283,21 @@ This project provides a user authentication system with registration, login, pro
 - **Success Response**:
   - **Status**: `201 Created`
   - **Body**:
+    - messege: (string). messege should be "Sign Up Successful"
+    - driver: (object)
+      - _id: (string). driver_id should be a string
+      - fullname: (object)
+        - firstname: (string). firstname should be at least 3 characters long
+        - lastname: (string). lastname should be at least 3 characters long
+      - email: (string). email should be a valid email address
+      - vehicle: (object)
+        - color: (string). color should be at least 3 characters long
+        - plateNumber: (string). plateNumber should be at least 3 characters long
+        - capacity: (number). capacity should be a number
+        - vehicleType: (string). vehicleType should be at least 3 characters long
+    - token: (string). token should be a string
+
+- **Example**:
     ```json
     {
       "message": "Sign Up Successful",
@@ -285,6 +350,10 @@ This project provides a user authentication system with registration, login, pro
 - **Method**: `POST`
 - **Description**: Logs in an existing driver.
 - **Request Body**:
+    - email: (string). email should be a valid email address
+    - password: (string). password should be at least 6 characters long
+
+- **Example**:
   ```json
   {
     "email": "john.doe@example.com",
@@ -294,6 +363,21 @@ This project provides a user authentication system with registration, login, pro
 - **Success Response**:
   - **Status**: `200 OK`
   - **Body**:
+    - messege: (string). messege should be "Login Successful"
+    - driver: (object)
+      - _id: (string). driver_id should be a string
+      - fullname: (object)
+        - firstname: (string). firstname should be at least 3 characters long
+        - lastname: (string). lastname should be at least 3 characters long
+      - email: (string). email should be a valid email address
+      - vehicle: (object)
+        - color: (string). color should be at least 3 characters long
+        - plateNumber: (string). plateNumber should be at least 3 characters long
+        - capacity: (number). capacity should be a number
+        - vehicleType: (string). vehicleType should be at least 3 characters long
+    - token: (string). token should be a string
+
+- **Example**:
     ```json
     {
       "message": "Login Successful",
@@ -348,6 +432,23 @@ This project provides a user authentication system with registration, login, pro
 - **Headers**:
   - `Authorization: Bearer jwt_token`
 - **Success Response**:
+- **Status**: `200 OK`
+- **Body**:
+    - _id: (string). driver_id should be a string
+    - fullname: (object)
+        - firstname: (string). firstname should be at least 3 characters long
+        - lastname: (string). lastname should be at least 3 characters long
+    - email: (string). email should be a valid email address
+    - vehicle: (object)
+        - color: (string). color should be at least 3 characters long
+        - plateNumber: (string). plateNumber should be at least 3 characters long
+        - capacity: (number). capacity should be a number
+        - vehicleType: (string). vehicleType should be at least 3 characters long
+    - location: (object)
+        - latitude: (number). latitude should be a number
+        - longitude: (number). longitude should be a number
+
+- **Example**:
   ```json
   {
     "_id": "driver_id",
