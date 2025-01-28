@@ -1,6 +1,69 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+
+
 const DriverLogin = () => {
+  const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [driverData, setDriverData] = useState({})
+  
+    const handleSubmit = (e) => {
+      e.preventDefault()
+      console.log(email, password)
+  
+      setDriverData({
+        email: email,
+        password: password
+      })
+      console.log(driverData)
+  
+      setEmail('')
+      setPassword('')
+    }
   return (
-    <div>DriverLogin</div>
+    <div className='p-7 h-screen flex flex-col justify-between'>
+    <div>
+    <img className='w-20 mb-3' src="https://www.svgrepo.com/show/505031/uber-driver.svg" alt="" />
+      <form 
+      onSubmit={(e)=>
+      {handleSubmit(e)}}>
+
+        <h3 className="text-lg font-medium mb-2">Email</h3>
+          <input 
+          className="bg-white mb-7 rounded px-4 py-2 border text-lg w-full placeholder:text-base"
+          type = "email" 
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder = "example@email.com" 
+          required />
+
+        <h3 className="text-lg font-medium mb-2" >Password</h3>
+
+          <input 
+          className="bg-white mb-7 rounded px-4 py-2 border text-lg w-full placeholder:text-base"
+          type = "password" 
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder = "Password" 
+          required />
+
+          <button
+          className = "bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2 text-lg w-full placeholder:text-base"
+          type = "submit">
+            Login
+          </button>
+      </form>
+    <p className='text-center'> Join the ride! <Link to={"/driver-signup"} className="text-blue-700">Register as a driver</Link></p>
+    </div>
+
+    <div>
+      <Link
+        to='/login'
+        className='bg-[#247aca] flex items-center justify-center text-white font-semibold mb-5 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base'
+      > signin as a User
+      </Link>
+    </div>
+  </div>
   )
 }
 
