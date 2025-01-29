@@ -1,5 +1,8 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { DriverDataContext } from '../context/DriverContext'
+
 
 const DriverSignup = () => {
   const [firstName, setFirstName] = useState('')
@@ -10,15 +13,19 @@ const DriverSignup = () => {
   const [plateNumber, setPlateNumber] = useState('')
   const [capacity, setCapacity] = useState('')
   const [vehicleType, setVehicleType] = useState('')
-  const [driverData, setDriverData] = useState({})
+  // const [driverData, setDriverData] = useState({})
+  const [errors, setErrors] = useState({})
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate()
+  const { driver, setDriver } = useContext(DriverDataContext)
+
+  const handleSubmit = async(e) => {
     e.preventDefault()
     console.log(firstName, lastName, email, password, color, plateNumber, capacity, vehicleType)
-    setDriverData({
+    const newDriver = {
       fullname:{
-        firstName: firstName,
-        lastName: lastName
+        firstname: firstName,
+        lastname: lastName
       },
       email: email,
       password: password,
@@ -28,9 +35,31 @@ const DriverSignup = () => {
         capacity: capacity,
         vehicleType: vehicleType
       }
-    })
+    }
 
-    console.log(driverData)
+    try{
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URl}/drivers/register`, newDriver)
+      console.log(response)
+      if(response.status === 201){
+        const data = response.data
+        setDriver(data.driver)
+        localStorage.setItem("driver-token", data.token)
+        navigate('/driver-home')
+      } 
+    }catch (error) {
+      if (error.response && error.response.data && error.response.data.errors) {
+        const backendErrors = {}
+        error.response.data.errors.forEach(err => {
+          backendErrors[err.path] = err.msg
+        })
+        console.log(backendErrors)
+        setErrors(backendErrors)
+      } else {
+        console.error(error)
+        // Optionally set a general error message
+        setErrors({ general: 'An unexpected error occurred. Please try again.' })
+      }
+    }
 
     setFirstName('')
     setLastName('')
@@ -98,9 +127,9 @@ const DriverSignup = () => {
           onChange={(e) => setVehicleType(e.target.value)}
           required>
             <option value="">Select Vehicle Type</option>
-            <option value="car">Car</option>
-            <option value="moto">Moto</option>
-            <option value="cng">CNG</option>
+            <option value="Car">Car</option>
+            <option value="Moto">Moto</option>
+            <option value="CNG">CNG</option>
           </select>
           
             <input

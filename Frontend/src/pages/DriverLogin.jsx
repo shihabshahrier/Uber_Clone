@@ -1,25 +1,41 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { DriverDataContext } from '../context/DriverContext'
+import { useContext } from 'react'
 
 
 const DriverLogin = () => {
-  const [email, setEmail] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [driverData, setDriverData] = useState({})
+
+    const navigate = useNavigate()
+    const { driver, setDriver } = useContext(DriverDataContext)
+
   
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
       e.preventDefault()
       console.log(email, password)
   
-      setDriverData({
+      const driver = {
         email: email,
         password: password
-      })
-      console.log(driverData)
+      }
+      
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URl}/drivers/login`, driver)
+
+      if(response.status === 200){
+        const data = response.data
+        setDriver(data.driver)
+        localStorage.setItem("driver-token", data.token)
+        navigate('/driver-home')
   
       setEmail('')
       setPassword('')
     }
+  }
+
   return (
     <div className='p-7 h-screen flex flex-col justify-between'>
     <div>
