@@ -276,7 +276,7 @@ This project provides a user authentication system with registration, login, pro
       "color": "Blue",
       "plateNumber": "ABC1234",
       "capacity": 4,
-      "vehicleType": "Sedan"
+      "vehicleType": "Car"
     }
   }
   ```
